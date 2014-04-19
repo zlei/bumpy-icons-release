@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Bumpy Icons</string>
+    <string name="current_score">Your score is</string>
+    <string name="best_score">Your best score is</string>
+    <string name="defaultscore">0</string>
+    <string name="back">Back</string>
+    <string name="continue_game">Continue</string>
+    <string name="medaille">Medaille</string>
+    <string name="play_button">Start to play</string>
+    <string name="save_button">Save</string>
+    <string name="about_back_button">back</string>
+    <string name="onscreen_score_text">Score:</string>
+    <string name="logo">logo</string>
+    <string name="learn_button">learn</string>
+    <string name="compete_button">compete</string>
+
+</resources>
