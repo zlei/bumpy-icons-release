@@ -19,14 +19,21 @@ import com.sessionm.api.SessionM;
 import com.sessionm.api.SessionM.ActivityType;
 import com.sessionm.api.SessionM.State;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnClickListener {
 	public static final float DEFAULT_VOLUME = 0.3f;
 	public static float volume = DEFAULT_VOLUME;
 	private String PATH;
 	public static String[] s;
 	public boolean musicShouldPlay = true;
 	public static MediaPlayer musicPlayer = null;
-	
+
+	private static ImageButton playBtn;
+	private static ImageButton flyerBtn;
+	private static ImageButton competeBtn;
+	private static ImageButton learnBtn;
+	private static ImageButton voiceBtn;
+	private static ImageButton rewardsBtn;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,90 +41,54 @@ public class MainActivity extends Activity {
 		PATH = Environment.getExternalStorageDirectory().getPath() + "/flappy";
 		this.loadLearnFile();
 
-		((ImageButton) findViewById(R.id.play_button)).setImageBitmap(Sprite
-				.createBitmap(getResources().getDrawable(R.drawable.play_pipe),
-						this));
-		((ImageButton) findViewById(R.id.play_button))
-				.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent i = new Intent(MainActivity.this, Game.class);
-						i.putExtra("mode", "pipe");
-						startActivity(i);
-					}
-				});
+		playBtn = (ImageButton) findViewById(R.id.play_button);
+		flyerBtn = (ImageButton) findViewById(R.id.flyer_button);
+		competeBtn = (ImageButton) findViewById(R.id.compete_button);
+		learnBtn = (ImageButton) findViewById(R.id.learn_button);
+		voiceBtn = (ImageButton) findViewById(R.id.voice_button);
+		rewardsBtn = (ImageButton) findViewById(R.id.reward_button);
 
-		((ImageButton) findViewById(R.id.flyer_button))
-				.setImageBitmap(Sprite
-						.createBitmap(
-								getResources().getDrawable(
-										R.drawable.play_flyer), this));
-		((ImageButton) findViewById(R.id.flyer_button))
-				.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent i = new Intent(MainActivity.this, Game.class);
-						i.putExtra("mode", "flyer");
-						startActivity(i);
-					}
-				});
-		((ImageButton) findViewById(R.id.compete_button)).setImageBitmap(Sprite
-				.createBitmap(
-						getResources().getDrawable(R.drawable.compete_button),
-						this));
-		((ImageButton) findViewById(R.id.compete_button))
-				.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent i = new Intent(MainActivity.this, Game.class);
-						i.putExtra("mode", "compete");
-						startActivity(i);
-					}
-				});
-		((ImageButton) findViewById(R.id.learn_button)).setImageBitmap(Sprite
-				.createBitmap(
-						getResources().getDrawable(R.drawable.learn_button),
-						this));
-		((ImageButton) findViewById(R.id.learn_button))
-				.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent i = new Intent(MainActivity.this, Game.class);
-						i.putExtra("mode", "learn");
-						startActivity(i);
-					}
-				});
+		playBtn.setOnClickListener(this);
+		flyerBtn.setOnClickListener(this);
+		competeBtn.setOnClickListener(this);
+		learnBtn.setOnClickListener(this);
+		voiceBtn.setOnClickListener(this);
+		rewardsBtn.setOnClickListener(this);
 
-		findViewById(R.id.voice_button).setOnClickListener(
-				new OnClickListener() {
+	}
 
-					@Override
-					public void onClick(View v) {
-						if (SessionM.getInstance().getSessionState() == State.STARTED_ONLINE) {
-							SessionM.getInstance().presentActivity(
-									ActivityType.PORTAL);
-						} else {
-							Toast.makeText(
-									MainActivity.this,
-									"SessionM Portal is currently unavailable.",
-									Toast.LENGTH_SHORT).show();
-						}
-					}
-				});
-		/**((ImageButton) findViewById(R.id.voice_button)).setImageBitmap(Sprite
-				.createBitmap(getResources().getDrawable(R.drawable.voice),
-						this));
-		((ImageButton) findViewById(R.id.voice_button))
-				.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent i = new Intent(MainActivity.this, Game.class);
-						i.putExtra("mode", "sound");
-						startActivity(i);
-					}
-				});
-		initMusicPlayer();
-		*/
+	@Override
+	public void onClick(View v) {
+		Intent i = new Intent(MainActivity.this, Game.class);
+		int id = v.getId();
+		switch (id) {
+		case R.id.play_button:
+			i.putExtra("mode", "pipe");
+			break;
+		case R.id.flyer_button:
+			i.putExtra("mode", "flyer");
+			break;
+		case R.id.compete_button:
+			i.putExtra("mode", "compete");
+			break;
+		case R.id.learn_button:
+			i.putExtra("mode", "learn");
+			break;
+		case R.id.voice_button:
+			i.putExtra("mode", "voice");
+			break;
+		//rewards button
+		case R.id.reward_button:
+			if (SessionM.getInstance().getSessionState() == State.STARTED_ONLINE) {
+				SessionM.getInstance().presentActivity(ActivityType.PORTAL);
+			} else {
+				Toast.makeText(MainActivity.this,
+						"SessionM Portal is currently unavailable.",
+						Toast.LENGTH_SHORT).show();
+			}
+			return;
+		}
+		startActivity(i);
 	}
 
 	public void initMusicPlayer() {

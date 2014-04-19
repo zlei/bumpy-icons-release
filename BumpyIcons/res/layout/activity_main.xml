@@ -41,27 +41,6 @@
         android:contentDescription="@string/logo"
         android:src="@drawable/splash" />
 
-    <ImageView
-        android:id="@+id/image_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/image_logo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="19dp"
-        android:contentDescription="@string/logo"
-        android:src="@drawable/search" />
-
-    <ImageButton
-        android:id="@+id/play_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/image_search"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/play_button"
-        android:src="@drawable/play_pipe" />
-
     <ImageButton
         android:id="@+id/flyer_button"
         android:layout_width="wrap_content"
@@ -83,5 +62,36 @@
         android:background="@android:color/transparent"
         android:contentDescription="@string/learn_button"
         android:src="@drawable/voice" />
+
+    <ImageButton
+        android:id="@+id/reward_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/voice_button"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="14dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/learn_button"
+        android:src="@drawable/voice" />
+
+    <ImageView
+        android:id="@+id/image_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_logo"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/logo"
+        android:src="@drawable/search" />
+
+    <ImageButton
+        android:id="@+id/play_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_search"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/play_button"
+        android:src="@drawable/play_pipe" />
 
 </RelativeLayout>
