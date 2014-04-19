@@ -1,5 +1,10 @@
 package com.zlei.flappypipe;
 
+/**
+ * Dialog for game over, high score and return
+ */
+import com.zlei.flappypipe.Game.GameMode;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -57,11 +62,11 @@ public class GameOverDialog extends Dialog {
 
 	private void manageScore(int points) {
 		String real_best_score_key = best_score_key
-				+ Integer.toString(Game.mode);
+				+ Game.MODE.toString();
 		SharedPreferences saves = game.getSharedPreferences(score_save_name, 0);
 		int oldPoints = saves.getInt(real_best_score_key, 0);
 		// pipe mode: need to find lowest score
-		if (Game.mode == 1) {
+		if (Game.MODE.equals(GameMode.Pipe)) {
 			if (oldPoints == 0)
 				oldPoints = Integer.MAX_VALUE;
 			if (points < oldPoints) {

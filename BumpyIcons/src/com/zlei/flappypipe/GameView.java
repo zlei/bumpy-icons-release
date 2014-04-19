@@ -17,9 +17,12 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
+import com.zlei.flappypipe.Game.GameMode;
+import com.zlei.flappypipe.Icons.IconType;
+
 public class GameView extends SurfaceView implements Runnable, OnTouchListener {
 	public static long UPDATE_INTERVAL = 10;
-	public int numOfPigs = 1, numOfLearners = 100;
+	public int numOfIcons = 1, numOfLearners = 100;
 	private Thread thread;
 	private SurfaceHolder holder;
 	private int obstacleY = -1;
@@ -37,53 +40,73 @@ public class GameView extends SurfaceView implements Runnable, OnTouchListener {
 	private List<Obstacle> obstacles = new ArrayList<Obstacle>();
 	private SoundMeter sound = new SoundMeter();
 	boolean allowSound = false;
+	public static IconType ICONTYPE;
 
+	/**
+	 * create icons
+	 * 
+	 * @param r2
+	 * @return
+	 */
 	public PlayableCharacter createIcon(int r2) {
 		int r = 0;
+
 		if (r2 == -1)
 			r = (int) Math.ceil(Math.random() * 4);
 		else
 			r = r2;
-
-		if (r == 1) {
-			return new FireFox(this, game);
-		} else if (r == 2) {
-			return new Exlpore(this, game);
-		} else if (r == 3) {
-			return new Safari(this, game);
-		} else if (r == 4 || r == 0) {
-			return new Chrome(this, game);
+		switch (r) {
+		case 1:
+			ICONTYPE = IconType.Firefox;
+			break;
+		case 2:
+			ICONTYPE = IconType.IE;
+			break;
+		case 3:
+			ICONTYPE = IconType.Safari;
+			break;
+		case 4:
+			ICONTYPE = IconType.Chrome;
+			break;
 		}
-
-		return null;
+		return new Icons(this, game);
 	}
 
 	public GameView(Context context, boolean playable) {
 		super(context);
 		this.game = (Game) context;
 
-		if (game.mode == 0)
-			numOfPigs = 1;
-		else if (game.mode == 1)
-			numOfPigs = 1;
-		else if (game.mode == 2) {
+		switch (Game.MODE) {
+		case Flyer:
+			numOfIcons = 1;
+			break;
+		case Pipe:
+			numOfIcons = 1;
+			break;
+		case Compete:
+			numOfIcons = 4;
+			break;
+		case Learn:
 			allowLearning = true;
-			numOfPigs = 50;
-		} else if (game.mode == 3)
-			numOfPigs = 4;
+			numOfIcons = this.numOfLearners;
+			break;
+		case Voice:
+			allowSound = true;
+			numOfIcons = 1;
+			break;
+		}
 
 		holder = getHolder();
 
-		if (game.mode == 3) {
+		if (Game.MODE.equals(GameMode.Compete)) {
 			players.add(createIcon(4));
 			players.add(createIcon(1));
 			players.add(createIcon(2));
 			players.add(createIcon(3));
 			players.get(0).isPlayer = true;
 		} else
-			for (int i = 0; i < numOfPigs; i++)
+			for (int i = 0; i < numOfIcons; i++)
 				players.add(createIcon(-1));
-
 		bg = new Background(this, game);
 		fg = new Frontground(this, game);
 
@@ -106,7 +129,8 @@ public class GameView extends SurfaceView implements Runnable, OnTouchListener {
 				game.finish();
 			}
 
-			if (game.mode == 1 || game.mode == 2)
+			if (Game.MODE.equals(GameMode.Pipe)
+					|| Game.MODE.equals(GameMode.Learn))
 				obstacleY = (int) event.getY();
 			else
 				this.players.get(0).onTap();
@@ -131,14 +155,15 @@ public class GameView extends SurfaceView implements Runnable, OnTouchListener {
 					shouldRun = true;
 				}
 
-				if (game.mode == 1 || game.mode == 2)
+				if (Game.MODE.equals(GameMode.Pipe)
+						|| Game.MODE.equals(GameMode.Learn))
 					;
 				else if (players.size() > 0)
 					this.players.get(0).onTap();
 			}
 
 			if (deleteAll) {
-				if (game.mode == 0)
+				if (Game.MODE.equals(GameMode.Flyer))
 					players.get(0).isPlayer = true;
 
 				deleteAll = false;
@@ -356,16 +381,15 @@ public class GameView extends SurfaceView implements Runnable, OnTouchListener {
 	}
 
 	public void restart() {
-		if (game.mode == 3) {
+		if (Game.MODE.equals(GameMode.Compete)) {
 			players.add(createIcon(4));
 			players.add(createIcon(1));
 			players.add(createIcon(2));
 			players.add(createIcon(3));
 			players.get(0).isPlayer = true;
 		} else
-			for (int i = 0; i < numOfPigs; i++) {
+			for (int i = 0; i < numOfIcons; i++)
 				players.add(createIcon(-1));
-			}
 
 		shouldRun = false;
 		resetPoints();

@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.sessionm.api.SessionM;
 import com.sessionm.api.SessionM.ActivityType;
 import com.sessionm.api.SessionM.State;
+import com.zlei.flappypipe.Game.GameMode;
 
 public class MainActivity extends Activity implements OnClickListener {
 	public static final float DEFAULT_VOLUME = 0.3f;
@@ -63,21 +64,26 @@ public class MainActivity extends Activity implements OnClickListener {
 		int id = v.getId();
 		switch (id) {
 		case R.id.play_button:
-			i.putExtra("mode", "pipe");
+			Game.MODE = GameMode.Pipe;
+			// i.putExtra("mode", GameMode.Pipe);
 			break;
 		case R.id.flyer_button:
-			i.putExtra("mode", "flyer");
+			Game.MODE = GameMode.Flyer;
+			// i.putExtra("mode", GameMode.Flyer);
 			break;
 		case R.id.compete_button:
-			i.putExtra("mode", "compete");
+			Game.MODE = GameMode.Compete;
+			// i.putExtra("mode", GameMode.Compete);
 			break;
 		case R.id.learn_button:
-			i.putExtra("mode", "learn");
+			Game.MODE = GameMode.Learn;
+			// i.putExtra("mode", GameMode.Learn);
 			break;
 		case R.id.voice_button:
-			i.putExtra("mode", "voice");
+			Game.MODE = GameMode.Voice;
+			// i.putExtra("mode", GameMode.Voice);
 			break;
-		//rewards button
+		// rewards button
 		case R.id.reward_button:
 			if (SessionM.getInstance().getSessionState() == State.STARTED_ONLINE) {
 				SessionM.getInstance().presentActivity(ActivityType.PORTAL);

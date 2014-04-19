@@ -17,31 +17,23 @@ public class Game extends Activity {
 	public static SoundPool soundPool = new SoundPool(5,
 			AudioManager.STREAM_MUSIC, 0);
 	private MyHandler handler;
-	public static int mode;
+	//public static int mode;
+	public static GameMode MODE;
 	GameView view;
 	GameOverDialog gameOverDialog;
+
+	public enum GameMode {
+		Pipe, Flyer, Compete, Learn, Voice
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Bundle bundle = getIntent().getExtras();
+		//Bundle bundle = getIntent().getExtras();
+		//MODE =  bundle.getString("mode");
+		
 		// decide game type
-
-		if (bundle.getString("mode").equals("flyer"))
-			mode = 0;
-		else if (bundle.getString("mode").equals("pipe"))
-			mode = 1;
-		else if (bundle.getString("mode").equals("learn"))
-			mode = 2;
-		else if (bundle.getString("mode").equals("compete"))
-			mode = 3;
-		else if (bundle.getString("mode").equals("sound")) {
-			mode = 0;
-		}
 		view = new GameView(this, true);
-		if (bundle.getString("mode").equals("sound"))
-			view.allowSound = true;
-
 		gameOverDialog = new GameOverDialog(this);
 		handler = new MyHandler(this);
 		setLayouts();

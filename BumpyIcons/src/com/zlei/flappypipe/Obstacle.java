@@ -1,3 +1,7 @@
+/**
+ * Obstacles
+ */
+
 package com.zlei.flappypipe;
 
 import android.graphics.Canvas;
